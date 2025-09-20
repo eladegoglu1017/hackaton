@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTextile Hub - Sürdürülebilir Tekstil Atık Yönetimi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-yellow: #fbbf24;
+            --primary-navy: #1e3a8a;
+            --dark-navy: #3730a3;
+            --light-yellow: #fcd34d;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(251, 191, 36, 0.3);
+            border-top: 6px solid var(--primary-yellow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::before {
+            content: "♻️";
+            font-size: 1.5rem;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            background: rgba(251, 191, 36, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Language Selector */
+        .language-selector select {
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(45deg, var(--primary-navy), var(--dark-navy), #4f46e5);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="3" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100px) rotate(0deg); }
+            to { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: slideInDown 1s ease;
+            background: linear-gradient(45deg, #fff, var(--primary-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease 0.3s both;
+        }
+
+        .typing-effect {
+            border-right: 3px solid var(--primary-yellow);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: var(--primary-yellow); }
+            51%, 100% { border-color: transparent; }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-yellow), var(--light-yellow));
+            color: var(--primary-navy);
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--primary-yellow);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+        }
+
+        /* Floating Icons */
+        .floating-icons {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            color: rgba(251, 191, 36, 0.3);
+            font-size: 2rem;
+            animation: floatRandom 15s infinite linear;
+        }
+
+        @keyframes floatRandom {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #f8f9fa;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-yellow), transparent);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--primary-yellow));
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-yellow);
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.8rem;
+            color: var(--primary-navy);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .about-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-navy), var(--primary-yellow));
+            border-radius: 2px;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .features-list li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #666;
+            transition: transform 0.2s ease;
+        }
+
+        .features-list li:hover {
+            transform: translateX(10px);
+        }
+
+        .features-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-yellow);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .about-visual {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .visual-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary-yellow);
+        }
+
+        .visual-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .visual-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-navy);
+        }
+
+        .visual-card h3 {
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+            color: white;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+            position: relative;
+        }
+
+        .services h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, white, var(--primary-yellow));
+            border-radius: 2px;
+        }
+
+        .services-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            margin-bottom: 4rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(251, 191, 36, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--primary-yellow);
+            box-shadow: 0 25px 50px rgba(251, 191, 36, 0.2);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-right: 1rem;
+            color: var(--primary-yellow);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: white;
+        }
+
+        .service-card p {
+            color: #e0e0e0;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s ease;
+            color: #ccc;
+        }
+
+        .service-features li:hover {
+            transform: translateX(5px);
+        }
+
+        .service-features li::before {
+            content: '→';
+            color: var(--primary-yellow);
+            font-weight: bold;
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+
+        /* Solutions Showcase */
+        .solutions-showcase {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .solutions-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid var(--primary-navy);
+            color: var(--primary-navy);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .tab-button.active, .tab-button:hover {
+            background: var(--primary-navy);
+            color: white;
+        }
+
+        .solution-content {
+            display: none;
+        }
+
+        .solution-content.active {
+            display: block;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .solution-card-small {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--primary-yellow);
+        }
+
+        .solution-card-small:hover {
+            transform: translateY(-5px);
+        }
+
+        .solution-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary-navy), var(--primary-yellow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .solution-body {
+            padding: 2rem;
+        }
+
+        .solution-body h3 {
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .solution-body p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more-btn {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .read-more-btn:hover {
+            color: var(--primary-yellow);
+        }
+
+        /* Interactive Calculator */
+        .calculator {
+            background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+            color: white;
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="100,10 40,180 190,60 10,60 160,180" fill="none" stroke="rgba(251,191,36,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .calculator-container {
+            background: rgba(255,255,255,0.1);
+            padding: 3rem;
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .calculator h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .calc-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group input, .form-group select {
+            padding: 12px 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+            transform: scale(1.02);
+        }
+
+        .calc-result {
+            background: rgba(255,255,255,0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 2rem;
+            display: none;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .result-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-chart {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .blog h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-navy);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--primary-navy), var(--primary-yellow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-date {
+            color: var(--primary-yellow);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .blog-title {
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+            color: var(--primary-navy);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary-navy), var(--dark-navy));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .newsletter-form input {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            min-width: 300px;
+        }
+
+        .newsletter-form button {
+            padding: 12px 30px;
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-navy);
+            color: white;
+            padding: 80px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-yellow);
+            font-size: 1.3rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-yellow);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(251, 191, 36, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(251, 191, 36, 0.3);
+            padding-top: 2rem;
+            text-align: center;
+            color: #ccc;
+        }
+
+        /* Scroll to top button */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-yellow);
+            color: var(--primary-navy);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(100px);
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-yellow), var(--primary-navy));
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 250px;
+                justify-content: center;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .newsletter-form input {
+                min-width: auto;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .solutions-tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">EcoTextile Hub</a>
+            <ul class="nav-links">
+                <li><a href="#ana-sayfa"><i class="fas fa-home"></i> Ana Sayfa</a></li>
+                <li><a href="#hakkimizda"><i class="fas fa-info-circle"></i> Hakkımızda</a></li>
+                <li><a href="#cozumlerimiz"><i class="fas fa-cog"></i> Çözümlerimiz</a></li>
+                <li><a href="#hesaplayici"><i class="fas fa-calculator"></i> Hesaplayıcı</a></li>
+                <li><a href="#blog"><i class="fas fa-blog"></i> Blog</a></li>
+                <li><a href="#iletisim"><i class="fas fa-envelope"></i> İletişim</a></li>
+            </ul>
+            <div class="language-selector">
+                <select id="languageSelect">
+                    <option value="tr">🇹🇷 Türkçe</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="es">🇪🇸 Español</option>
+                </select>
+            </div>
+            <div class="mobile-menu" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="ana-sayfa">
+        <div class="floating-icons">
+            <i class="floating-icon fas fa-leaf" style="left: 10%; animation-delay: 0s;"></i>
+            <i class="floating-icon fas fa-recycle" style="left: 20%; animation-delay: 2s;"></i>
+            <i class="floating-icon fas fa-tshirt" style="left: 30%; animation-delay: 4s;"></i>
+            <i class="floating-icon fas fa-seedling" style="left: 40%; animation-delay: 6s;"></i>
+            <i class="floating-icon fas fa-globe-americas" style="left: 50%; animation-delay: 8s;"></i>
+            <i class="floating-icon fas fa-heart" style="left: 60%; animation-delay: 10s;"></i>
+            <i class="floating-icon fas fa-industry" style="left: 70%; animation-delay: 12s;"></i>
+            <i class="floating-icon fas fa-hands-helping" style="left: 80%; animation-delay: 14s;"></i>
+        </div>
+        <div class="container hero-content">
+            <h1 data-translate="hero-title">Sürdürülebilir Tekstil Geleceği</h1>
+            <p class="typing-effect" id="typing-text" data-translate="hero-description">Tekstil atığını değere dönüştüren, çevreye duyarlı çözümlerle geleceği şekillendiriyoruz</p>
+            <div class="cta-buttons">
+                <a href="#hesaplayici" class="btn btn-primary" data-translate="cta-calculator"><i class="fas fa-calculator"></i> Atık Hesapla</a>
+                <a href="#cozumlerimiz" class="btn btn-secondary" data-translate="cta-solutions"><i class="fas fa-cog"></i> Çözümlerimizi Keşfet</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-trash-alt"></i></div>
+                    <div class="stat-number" data-count="92">0</div>
+                    <div class="stat-label" data-translate="stat-waste">Milyon Ton<br>Yıllık Tekstil Atığı</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-number" data-count="73">0</div>
+                    <div class="stat-label" data-translate="stat-unrecycled">%<br>Geri Dönüştürülmeyen Atık</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-tint"></i></div>
+                    <div class="stat-number" data-count="2700">0</div>
+                    <div class="stat-label" data-translate="stat-water-usage">Litre Su<br>1 Pamuklu T-shirt İçin</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-award"></i></div>
+                    <div class="stat-number" data-count="150">0</div>
+                    <div class="stat-label" data-translate="stat-projects">Başarılı Proje<br>Son 5 Yılda</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="hakkimizda">
+        <div class="container about-container">
+            <div class="about-content">
+                <h2 data-translate="about-title">Neden EcoTextile Hub?</h2>
+                <p data-translate="about-description1">
+                    Tekstil endüstrisi dünyanın en kirletici sektörlerinden biri olmakla birlikte, 
+                    doğru yaklaşımlarla sürdürülebilir bir geleceğe dönüştürülebilir. Bizim misyonumuz 
+                    bu dönüşümü hızlandırmak ve tekstil atıklarını döngüsel ekonominin bir parçası haline getirmektir.
+                </p>
+                <p data-translate="about-description2">
+                    15+ yıllık deneyimimizle geliştirdiğimiz patentli teknolojilerimiz, yapay zeka destekli 
+                    süreçlerimiz ve sürdürülebilirlik odaklı yaklaşımımızla sektöre öncülük ediyoruz.
+                </p>
+                <ul class="features-list">
+                    <li data-translate="feature-1">ISO 14001 sertifikalı çevre yönetim sistemi</li>
+                    <li data-translate="feature-2">%99.2 geri dönüşüm başarı oranı</li>
+                    <li data-translate="feature-3">24/7 anlık izleme ve raporlama</li>
+                    <li data-translate="feature-4">Blockchain tabanlı şeffaflık</li>
+                    <li data-translate="feature-5">Karbon nötr operasyonlar</li>
+                    <li data-translate="feature-6">AI destekli otomatik sınıflandırma</li>
+                </ul>
+            </div>
+            <div class="about-visual">
+                <div class="visual-card">
+                    <div class="visual-icon"><i class="fas fa-industry"></i></div>
+                    <h3 data-translate="visual-facilities">Tesislerimiz</h3>
+                    <p data-translate="visual-facilities-desc">12 ülkede modern işleme tesisleri</p>
+                </div>
+                <div class="visual-card">
+                    <div class="visual-icon"><i class="fas fa-flask"></i></div>
+                    <h3 data-translate="visual-research">Ar-Ge</h3>
+                    <p data-translate="visual-research-desc">Sürekli yenilik ve teknoloji geliştirme</p>
+                </div>
+                <div class="visual-card">
+                    <div class="visual-icon"><i class="fas fa-globe"></i></div>
+                    <h3 data-translate="visual-global">Küresel Ağ</h3>
+                    <p data-translate="visual-global-desc">85 ülkede aktif operasyonlar</p>
+                </div>
+                <div class="visual-card">
+                    <div class="visual-icon"><i class="fas fa-users"></i></div>
+                    <h3 data-translate="visual-team">Uzman Ekip</h3>
+                    <p data-translate="visual-team-desc">500+ çevre ve tekstil uzmanı</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <h2 data-translate="services-title">Hizmetlerimiz</h2>
+            <p class="services-subtitle" data-translate="services-subtitle">Sürdürülebilir tekstil geleceği için kapsamlı çözümler</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon"><i class="fas fa-user-circle"></i></div>
+                        <h3 data-translate="service1-title">Bireysel Çözümler</h3>
+                    </div>
+                    <p data-translate="service1-description">Kişisel gardırop yönetimi, sürdürülebilir alışveriş rehberi, DIY upcycling projeleri ve yerel geri dönüşüm noktaları haritası ile çevreci bir yaşam tarzı benimseyin.</p>
+                    <ul class="service-features">
+                        <li data-translate="service1-feature1">Kişisel atık hesaplayıcı</li>
+                        <li data-translate="service1-feature2">Sürdürülebilir marka rehberi</li>
+                        <li data-translate="service1-feature3">Kıyafet takas platformu</li>
+                        <li data-translate="service1-feature4">Upcycling video rehberleri</li>
+                        <li data-translate="service1-feature5">Çevresel ayak izi takibi</li>
+                        <li data-translate="service1-feature6">Yerel geri dönüşüm haritası</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon"><i class="fas fa-building"></i></div>
+                        <h3 data-translate="service2-title">Kurumsal Çözümler</h3>
+                    </div>
+                    <p data-translate="service2-description">İşletmeniz için kapsamlı atık yönetim stratejileri, sürdürülebilirlik raporları ve sertifikasyon süreçlerinde profesyonel danışmanlık hizmeti sunuyoruz.</p>
+                    <ul class="service-features">
+                        <li data-translate="service2-feature1">Atık yönetim danışmanlığı</li>
+                        <li data-translate="service2-feature2">Sürdürülebilirlik raporları</li>
+                        <li data-translate="service2-feature3">B2B tekstil atığı pazarı</li>
+                        <li data-translate="service2-feature4">Sertifikasyon süreç yönetimi</li>
+                        <li data-translate="service2-feature5">Çalışan eğitim programları</li>
+                        <li data-translate="service2-feature6">Yeşil tedarik zinciri optimizasyonu</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon"><i class="fas fa-cog"></i></div>
+                        <h3 data-translate="service3-title">Teknoloji & İnovasyon</h3>
+                    </div>
+                    <p data-translate="service3-description">Yenilikçi geri dönüşüm teknolojileri, sürdürülebilir malzeme araştırmaları ve endüstri analizleri ile tekstil sektöründe çevreci dönüşümü destekliyoruz.</p>
+                    <ul class="service-features">
+                        <li data-translate="service3-feature1">AI destekli atık sınıflandırma</li>
+                        <li data-translate="service3-feature2">Robotik geri dönüşüm sistemleri</li>
+                        <li data-translate="service3-feature3">Nano-fiber üretim teknolojisi</li>
+                        <li data-translate="service3-feature4">Blockchain izlenebilirlik</li>
+                        <li data-translate="service3-feature5">IoT sensör ağları</li>
+                        <li data-translate="service3-feature6">Sürdürülebilir malzeme AR-GE</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solutions-showcase" id="cozumlerimiz">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-translate="solutions-title">Çözümlerimizi Keşfedin</h2>
+                <p data-translate="solutions-subtitle">Farklı sektörler için özelleştirilmiş atık yönetimi çözümleri</p>
+            </div>
+            
+            <div class="solutions-tabs">
+                <button class="tab-button active" onclick="showSolution('recycling')" data-translate="tab-recycling">Geri Dönüşüm</button>
+                <button class="tab-button" onclick="showSolution('upcycling')" data-translate="tab-upcycling">Upcycling</button>
+                <button class="tab-button" onclick="showSolution('corporate')" data-translate="tab-corporate">Kurumsal</button>
+                <button class="tab-button" onclick="showSolution('technology')" data-translate="tab-technology">Teknoloji</button>
+            </div>
+
+            <div class="solution-content active" id="recycling">
+                <div class="solutions-grid">
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="recycling1-title">Mekanik Geri Dönüşüm</h3>
+                            <p data-translate="recycling1-desc">Pamuklu ve sentetik fiberlerin fiziksel yöntemlerle ayrıştırılması ve yeniden işlenmesi. %95 verimlilik oranı.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="recycling2-title">Kimyasal Geri Dönüşüm</h3>
+                            <p data-translate="recycling2-desc">Polimer seviyesinde ayrıştırma ile ham madde kalitesinde geri dönüşüm. Sonsuz döngü mümkün.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="recycling3-title">Otomatik Sınıflandırma</h3>
+                            <p data-translate="recycling3-desc">AI ve görüntü işleme teknolojisi ile %99.7 doğrulukta otomatik tekstil atığı sınıflandırması.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-content" id="upcycling">
+                <div class="solutions-grid">
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="upcycling1-title">Tasarım Atölyesi</h3>
+                            <p data-translate="upcycling1-desc">Atık tekstillerden yeni tasarım ürünleri oluşturma atölyesi. Yaratıcılık ve sürdürülebilirlik bir arada.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="upcycling2-title">Sanatsal Dönüşüm</h3>
+                            <p data-translate="upcycling2-desc">Tekstil atıklarının sanat eserlerine dönüştürülmesi. Sosyal fayda ve estetik değer yaratma.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="upcycling3-title">Ev Dekorasyonu</h3>
+                            <p data-translate="upcycling3-desc">Eski tekstillerin ev dekorasyon ürünlerine dönüştürülmesi. Fonksiyonel ve çevre dostu çözümler.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-content" id="corporate">
+                <div class="solutions-grid">
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="corporate1-title">Sürdürülebilirlik Raporlaması</h3>
+                            <p data-translate="corporate1-desc">Detaylı çevresel etki analizleri ve sürdürülebilirlik raporları. Uluslararası standartlara uygun.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="corporate2-title">Tedarik Zinciri Entegrasyonu</h3>
+                            <p data-translate="corporate2-desc">Tüm tedarik zinciri boyunca atık yönetimi entegrasyonu. Şeffaflık ve izlenebilirlik.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="corporate3-title">Personel Eğitimi</h3>
+                            <p data-translate="corporate3-desc">Sürdürülebilirlik ve atık yönetimi konularında kapsamlı personel eğitim programları.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-content" id="technology">
+                <div class="solutions-grid">
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="technology1-title">Yapay Zeka Sistemleri</h3>
+                            <p data-translate="technology1-desc">Makine öğrenmesi ile optimize edilmiş atık yönetimi. Sürekli öğrenen ve gelişen sistemler.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="technology2-title">Blockchain İzlenebilirlik</h3>
+                            <p data-translate="technology2-desc">Tekstil ürünlerinin yaşam döngüsü boyunca tam izlenebilirlik. Şeffaf ve güvenilir veri.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-card-small">
+                        <div class="solution-image">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="solution-body">
+                            <h3 data-translate="technology3-title">IoT Sensör Ağları</h3>
+                            <p data-translate="technology3-desc">Gerçek zamanlı veri toplama ve analiz. Akıllı atık yönetimi için IoT çözümleri.</p>
+                            <a href="#" class="read-more-btn" data-translate="read-more">Detayları Gör <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator" id="hesaplayici">
+        <div class="container">
+            <div class="calculator-container">
+                <h2 data-translate="calculator-title"><i class="fas fa-calculator"></i> Tekstil Atık Hesaplayıcısı</h2>
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label for="clothing-count" data-translate="form-clothing-count"><i class="fas fa-tshirt"></i> Aylık Kıyafet Alışverişi (adet)</label>
+                        <input type="number" id="clothing-count" placeholder="Örn: 3" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="clothing-type" data-translate="form-clothing-type"><i class="fas fa-tags"></i> Kıyafet Türü</label>
+                        <select id="clothing-type">
+                            <option value="mixed" data-translate="clothing-mixed">Karışık</option>
+                            <option value="cotton" data-translate="clothing-cotton">Pamuklu</option>
+                            <option value="synthetic" data-translate="clothing-synthetic">Sentetik</option>
+                            <option value="denim" data-translate="clothing-denim">Jean</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usage-time" data-translate="form-usage-time"><i class="fas fa-clock"></i> Ortalama Kullanım Süresi (ay)</label>
+                        <input type="number" id="usage-time" placeholder="Örn: 12" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="disposal-method" data-translate="form-disposal-method"><i class="fas fa-recycle"></i> Elden Çıkarma Yöntemi</label>
+                        <select id="disposal-method">
+                            <option value="trash" data-translate="disposal-trash">Çöpe Atma</option>
+                            <option value="donation" data-translate="disposal-donation">Bağış</option>
+                            <option value="recycle" data-translate="disposal-recycle">Geri Dönüşüm</option>
+                            <option value="upcycle" data-translate="disposal-upcycle">Upcycling</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="calculateWaste()" style="display: block; margin: 0 auto;" data-translate="calculate-btn">
+                    <i class="fas fa-chart-line"></i> Hesapla
+                </button>
+
+                <div class="calc-result" id="result">
+                    <h3 data-translate="result-title"><i class="fas fa-chart-pie"></i> Sonuçlarınız</h3>
+                    <p id="result-text"></p>
+                    <p id="environmental-impact"></p>
+                    <div class="result-charts">
+                        <div class="result-chart">
+                            <i class="fas fa-leaf" style="font-size: 2rem; color: var(--primary-yellow); margin-bottom: 0.5rem;"></i>
+                            <div id="eco-score" data-translate="eco-score">Çevre Skoru</div>
+                        </div>
+                        <div class="result-chart">
+                            <i class="fas fa-tint" style="font-size: 2rem; color: var(--primary-yellow); margin-bottom: 0.5rem;"></i>
+                            <div id="water-usage" data-translate="water-usage">Su Kullanımı</div>
+                        </div>
+                        <div class="result-chart">
+                            <i class="fas fa-seedling" style="font-size: 2rem; color: var(--primary-yellow); margin-bottom: 0.5rem;"></i>
+                            <div id="carbon-footprint" data-translate="carbon-footprint">Karbon Ayak İzi</div>
+                        </div>
+                    </div>
+                    <p id="suggestions"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog" id="blog">
+        <div class="container">
+            <h2 data-translate="blog-title"><i class="fas fa-blog"></i> Son Yazılar</h2>
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog1-date">15 Mart 2025</div>
+                        <h3 class="blog-title" data-translate="blog1-title">Sürdürülebilir Moda Trendleri 2025</h3>
+                        <p data-translate="blog1-description">2025 yılında tekstil endüstrisinde sürdürülebilirlik nasıl şekilleniyor? En son trendler ve gelişmeler...</p>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-recycle"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog2-date">10 Mart 2025</div>
+                        <h3 class="blog-title" data-translate="blog2-title">Tekstil Geri Dönüşümde Yenilikçi Teknolojiler</h3>
+                        <p data-translate="blog2-description">Geri dönüşüm teknolojilerindeki son gelişmeler ve gelecek vaat eden yenilikçi çözümler...</p>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog3-date">5 Mart 2025</div>
+                        <h3 class="blog-title" data-translate="blog3-title">Fast Fashion'a Karşı Döngüsel Ekonomi</h3>
+                        <p data-translate="blog3-description">Döngüsel ekonomi modeli nasıl fast fashion problemine çözüm olabilir? Detaylar yazımızda...</p>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog4-date">28 Şubat 2025</div>
+                        <h3 class="blog-title" data-translate="blog4-title">Nano-Teknoloji ve Tekstil Atık Yönetimi</h3>
+                        <p data-translate="blog4-description">Nano-teknolojinin tekstil geri dönüşümündeki devrimci etkileri ve gelecek uygulamaları...</p>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog5-date">20 Şubat 2025</div>
+                        <h3 class="blog-title" data-translate="blog5-title">AB Tekstil Düzenlemeleri ve Etkiler</h3>
+                        <p data-translate="blog5-description">Avrupa Birliği'nin yeni tekstil atık düzenlemelerinin sektöre etkileri ve adaptasyon stratejileri...</p>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-date" data-translate="blog6-date">15 Şubat 2025</div>
+                        <h3 class="blog-title" data-translate="blog6-title">Toplumsal Farkındalık ve Sürdürülebilir Moda</h3>
+                        <p data-translate="blog6-description">Tüketici davranışlarının değişimi ve sürdürülebilir moda bilincinin artmasında sosyal medyanın rolü...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <h2 data-translate="newsletter-title"><i class="fas fa-envelope"></i> Bültene Abone Olun</h2>
+            <p data-translate="newsletter-description">Sürdürülebilir tekstil dünyasındaki son gelişmeleri kaçırmayın!</p>
+            <div class="newsletter-form">
+                <input type="email" placeholder="E-posta adresinizi girin" id="newsletter-email" data-translate-placeholder="newsletter-email-placeholder">
+                <button onclick="subscribeNewsletter()" data-translate="newsletter-subscribe">
+                    <i class="fas fa-paper-plane"></i> Abone Ol
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer id="iletisim">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-translate="footer-company-title"><i class="fas fa-leaf"></i> EcoTextile Hub</h3>
+                    <p data-translate="footer-company-description">Sürdürülebilir tekstil geleceği için çalışıyoruz. Çevre dostu çözümlerle tekstil endüstrisini dönüştürüyoruz.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 data-translate="footer-links-title"><i class="fas fa-link"></i> Hızlı Linkler</h3>
+                    <ul>
+                        <li><a href="#ana-sayfa" data-translate="footer-home"><i class="fas fa-home"></i> Ana Sayfa</a></li>
+                        <li><a href="#hakkimizda" data-translate="footer-about"><i class="fas fa-info-circle"></i> Hakkımızda</a></li>
+                        <li><a href="#cozumlerimiz" data-translate="footer-solutions"><i class="fas fa-cog"></i> Çözümlerimiz</a></li>
+                        <li><a href="#hesaplayici" data-translate="footer-calculator"><i class="fas fa-calculator"></i> Atık Hesaplayıcı</a></li>
+                        <li><a href="#blog" data-translate="footer-blog"><i class="fas fa-blog"></i> Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-translate="footer-contact-title"><i class="fas fa-phone"></i> İletişim</h3>
+                    <ul>
+                        <li><a href="mailto:info@ecotextilehub.com" data-translate="footer-email"><i class="fas fa-envelope"></i> info@ecotextilehub.com</a></li>
+                        <li><a href="tel:+902125550123" data-translate="footer-phone"><i class="fas fa-phone"></i> +90 212 555 01 23</a></li>
+                        <li><a href="#" data-translate="footer-address"><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</a></li>
+                        <li><a href="#" data-translate="footer-website"><i class="fas fa-globe"></i> www.ecotextilehub.com</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 data-translate="footer-info-title"><i class="fas fa-info-circle"></i> Kurumsal</h3>
+                    <ul>
+                        <li><a href="#" data-translate="footer-vision"><i class="fas fa-eye"></i> Vizyonumuz</a></li>
+                        <li><a href="#" data-translate="footer-mission"><i class="fas fa-bullseye"></i> Misyonumuz</a></li>
+                        <li><a href="#" data-translate="footer-certificates"><i class="fas fa-certificate"></i> Sertifikalarımız</a></li>
+                        <li><a href="#" data-translate="footer-partners"><i class="fas fa-handshake"></i> Ortaklarımız</a></li>
+                        <li><a href="#" data-translate="footer-careers"><i class="fas fa-briefcase"></i> Kariyer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-translate="footer-copyright">&copy; 2025 EcoTextile Hub. Tüm hakları saklıdır. | <a href="#" style="color: var(--primary-yellow);">Gizlilik Politikası</a> | <a href="#" style="color: var(--primary-yellow);">Kullanım Şartları</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <div class="scroll-top" id="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <script>
+        // Translations object
+        const translations = {
+            tr: {
+                "hero-title": "Sürdürülebilir Tekstil Geleceği",
+                "hero-description": "Tekstil atığını değere dönüştüren, çevreye duyarlı çözümlerle geleceği şekillendiriyoruz",
+                "cta-calculator": "Atık Hesapla",
+                "cta-solutions": "Çözümlerimizi Keşfet",
+                "stat-waste": "Milyon Ton<br>Yıllık Tekstil Atığı",
+                "stat-unrecycled": "%<br>Geri Dönüştürülmeyen Atık",
+                "stat-water-usage": "Litre Su<br>1 Pamuklu T-shirt İçin",
+                "stat-projects": "Başarılı Proje<br>Son 5 Yılda"
+            },
+            en: {
+                "hero-title": "Sustainable Textile Future",
+                "hero-description": "Transforming textile waste into value, shaping the future with environmentally friendly solutions",
+                "cta-calculator": "Calculate Waste",
+                "cta-solutions": "Discover Our Solutions",
+                "stat-waste": "Million Tons<br>Annual Textile Waste",
+                "stat-unrecycled": "%<br>Non-Recycled Waste",
+                "stat-water-usage": "Liters of Water<br>For 1 Cotton T-shirt",
+                "stat-projects": "Successful Projects<br>In Last 5 Years"
+            }
+        };
+
+        // Language switching function
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' && element.type === 'text' || element.type === 'email') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = scrollPercent + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animated counter for stats
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                element.textContent = Math.floor(current);
+
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('stats')) {
+                        const counters = entry.target.querySelectorAll('[data-count]');
+                        counters.forEach(counter => animateCounter(counter));
+                    }
+                    entry.target.style.animation = 'fadeIn 1s ease forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections
+        document.querySelectorAll('.stats, .service-card, .blog-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Typing effect
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Start typing effect after page load
+        setTimeout(() => {
+            const typingElement = document.getElementById('typing-text');
+            const text = typingElement.textContent;
+            typeWriter(typingElement, text, 30);
+        }, 1000);
+
+        // Solutions tab switching
+        function showSolution(solutionType) {
+            // Hide all solution contents
+            document.querySelectorAll('.solution-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected solution content
+            document.getElementById(solutionType).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Waste Calculator Function
+        function calculateWaste() {
+            const clothingCount = parseFloat(document.getElementById('clothing-count').value) || 0;
+            const clothingType = document.getElementById('clothing-type').value;
+            const usageTime = parseFloat(document.getElementById('usage-time').value) || 0;
+            const disposalMethod = document.getElementById('disposal-method').value;
+
+            if (clothingCount === 0 || usageTime === 0) {
+                alert('Lütfen tüm alanları doldurun!');
+                return;
+            }
+
+            // Weight calculations based on clothing type
+            const weights = {
+                mixed: 0.5,
+                cotton: 0.4,
+                synthetic: 0.3,
+                denim: 0.8
+            };
+
+            // Environmental impact multipliers
+            const impactMultipliers = {
+                trash: 1.0,
+                donation: 0.3,
+                recycle: 0.2,
+                upcycle: 0.1
+            };
+
+            const monthlyWaste = clothingCount * weights[clothingType];
+            const yearlyWaste = monthlyWaste * 12;
+            const environmentalImpact = yearlyWaste * impactMultipliers[disposalMethod];
+
+            // Water usage calculation (liters per kg)
+            const waterUsage = yearlyWaste * 2700;
+            const carbonFootprint = yearlyWaste * 33.4; // kg CO2 per kg textile
+
+            // Calculate eco score (0-100)
+            const ecoScore = Math.max(0, Math.min(100, 100 - (environmentalImpact * 10)));
+
+            let resultText = `Yıllık tekstil atığınız: <strong>${yearlyWaste.toFixed(1)} kg</strong>`;
+
+            // Update result charts
+            document.getElementById('eco-score').innerHTML = `<strong>${ecoScore.toFixed(0)}/100</strong>`;
+            document.getElementById('water-usage').innerHTML = `<strong>${waterUsage.toFixed(0)} L</strong>`;
+            document.getElementById('carbon-footprint').innerHTML = `<strong>${carbonFootprint.toFixed(1)} kg CO₂</strong>`;
+
+            let suggestions = '';
+            if (ecoScore < 30) {
+                suggestions = '🔴 <strong>Yüksek Risk:</strong> Alışveriş alışkanlıklarınızı gözden geçirmenizi öneririz. Daha az alışveriş yapın ve kıyafetlerinizi daha uzun süre kullanın.';
+            } else if (ecoScore < 70) {
+                suggestions = '🟡 <strong>Orta Risk:</strong> Geri dönüşüm ve bağış seçeneklerini değerlendirin. Sürdürülebilir markalar tercih edin.';
+            } else {
+                suggestions = '🟢 <strong>Mükemmel!</strong> Sürdürülebilir tekstil tüketimi konusunda harika bir performans gösteriyorsunuz!';
+            }
+
+            document.getElementById('result-text').innerHTML = resultText;
+            document.getElementById('suggestions').innerHTML = suggestions;
+            document.getElementById('result').style.display = 'block';
+
+            // Animate result appearance
+            document.getElementById('result').style.animation = 'slideInUp 0.5s ease';
+        }
+
+        // Newsletter subscription
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletter-email').value;
+            if (email && email.includes('@')) {
+                alert('Başarıyla abone oldunuz! Teşekkürler.');
+                document.getElementById('newsletter-email').value = '';
+            } else {
+                alert('Lütfen geçerli bir e-posta adresi girin.');
+            }
+        }
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+
+            // Header scroll effect
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(30, 58, 138, 0.95)';
+                header.style.backdropFilter = 'blur(20px)';
+                scrollTopBtn.classList.add('visible');
+            } else {
+                header.style.background = 'linear-gradient(135deg, var(--primary-navy), var(--dark-navy))';
+                header.style.backdropFilter = 'none';
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Language selector functionality
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            changeLanguage(this.value);
+        });
+
+        // Mobile menu functionality
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'rgba(30, 58, 138, 0.95)';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.padding = '1rem';
+                navLinks.style.zIndex = '999';
+            }
+        });
+
+        // Add interactive effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add floating animation to hero icons
+        document.querySelectorAll('.floating-icon').forEach((icon, index) => {
+            icon.style.left = Math.random() * 100 + '%';
+            icon.style.animationDelay = Math.random() * 15 + 's';
+        });
+
+        // Add particle effect on scroll
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = 'var(--primary-yellow)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            particle.style.opacity = '0.7';
+            document.body.appendChild(particle);
+
+            // Animate particle
+            let opacity = 0.7;
+            let yPos = y;
+
+            const animate = () => {
+                opacity -= 0.02;
+                yPos -= 2;
+                particle.style.opacity = opacity;
+                particle.style.top = yPos + 'px';
+
+                if (opacity > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    document.body.removeChild(particle);
+                }
+            };
+
+            animate();
+        }
+
+        // Create particles on scroll
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            if (Math.abs(window.scrollY - lastScrollY) > 50) {
+                createParticle(Math.random() * window.innerWidth, window.innerHeight);
+                lastScrollY = window.scrollY;
+            }
+        });
+    </script>
+</body>
+</html>
